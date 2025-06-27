@@ -80,10 +80,12 @@ end
 
 if character then
     destroyLocalScripts(character)
+    safeDestroy(character:FindFirstChild("Ragdolled"))
 end
 
 player.CharacterAdded:Connect(function(newCharacter)
     destroyLocalScripts(newCharacter)
+    safeDestroy(newCharacter:FindFirstChild("Ragdolled"))
 end)
 
 local playerScripts = player:FindFirstChild("PlayerScripts")
@@ -110,4 +112,4 @@ end
 local SendNotification = function(Ti, Te)
     game:GetService("StarterGui"):SetCore('SendNotification', {Title = tostring(Ti), Text = tostring(Te)})
 end
-SendNotification("Bypassed 34/35 modules, functions, events etc. . .", "by cowka")
+SendNotification("Bypassed 35/35 modules, functions, events etc. . .", "by cowka")
