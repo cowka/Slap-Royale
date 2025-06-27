@@ -113,3 +113,82 @@ local SendNotification = function(Ti, Te)
     game:GetService("StarterGui"):SetCore('SendNotification', {Title = tostring(Ti), Text = tostring(Te)})
 end
 SendNotification("Bypassed 35/35 modules, functions, events etc. . .", "by cowka")
+
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+local mainFrame = Instance.new("Frame")
+mainFrame.Size = UDim2.new(0, 199, 0, 110)
+mainFrame.Position = UDim2.new(0.5, -99.5, 0.5, -55)
+mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+mainFrame.BackgroundTransparency = 0.5
+mainFrame.BorderSizePixel = 2
+mainFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+mainFrame.Draggable = true
+mainFrame.Active = true
+mainFrame.Parent = screenGui
+
+local closeButton = Instance.new("TextButton")
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -30, 0, 0)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.fromRGB(255, 0, 0)
+closeButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+closeButton.BackgroundTransparency = 1
+closeButton.BorderSizePixel = 0
+closeButton.Font = Enum.Font.SourceSansBold
+closeButton.TextSize = 20
+closeButton.AutoButtonColor = false
+
+local textStroke = Instance.new("UIStroke")
+textStroke.Color = Color3.fromRGB(0, 0, 0)
+textStroke.Thickness = 2
+textStroke.Transparency = 0
+textStroke.Parent = closeButton
+
+closeButton.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+closeButton.Parent = mainFrame
+
+local aliveCountLabel = Instance.new("TextLabel")
+aliveCountLabel.Size = UDim2.new(1, -60, 0, 50)
+aliveCountLabel.Position = UDim2.new(0.5, -79.5, 0.5, -25)
+aliveCountLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+aliveCountLabel.BackgroundTransparency = 1
+aliveCountLabel.BorderSizePixel = 0
+aliveCountLabel.Font = Enum.Font.SourceSansBold
+aliveCountLabel.TextSize = 26 -- Увеличенный размер текста
+aliveCountLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+aliveCountLabel.TextWrapped = true
+aliveCountLabel.Text = "Alive Count: 0"
+
+local textStrokeLabel = Instance.new("UIStroke")
+textStrokeLabel.Color = Color3.fromRGB(0, 0, 0)
+textStrokeLabel.Thickness = 2
+textStrokeLabel.Transparency = 0
+textStrokeLabel.Parent = aliveCountLabel
+
+aliveCountLabel.Parent = mainFrame
+
+local function updateAliveCount()
+    local playerService = game:GetService("Players")
+    local aliveCount = 0
+
+    for _, player in pairs(playerService:GetPlayers()) do
+        local character = player.Character
+        if character and character:FindFirstChild("Humanoid") then
+            local humanoid = character.Humanoid
+            if humanoid.Health > 0 then
+                aliveCount = aliveCount + 1
+            end
+        end
+    end
+
+    aliveCountLabel.Text = "Alive Count: " .. aliveCount
+end
+
+game:GetService("RunService").Heartbeat:Connect(function()
+    updateAliveCount()
+end)
