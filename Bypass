@@ -105,3 +105,9 @@ if backendLibCmdrBuiltInCommandsAdmin then
     safeDestroy(kick)
     safeDestroy(kickServer)
 end
+
+
+local SendNotification = function(Ti, Te)
+    game:GetService("StarterGui"):SetCore('SendNotification', {Title = tostring(Ti), Text = tostring(Te)})
+end
+SendNotification("Bypassed 34/35 modules, functions, events etc. . .", "by cowka")
