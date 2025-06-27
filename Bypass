@@ -1,0 +1,107 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+local replicatedStorage = game:GetService("ReplicatedStorage")
+
+local function safeDestroy(object)
+    if object then
+        object:Destroy()
+    end
+end
+
+safeDestroy(replicatedStorage:FindFirstChild("Remotes"))
+safeDestroy(replicatedStorage:FindFirstChild("RemoteFunctions"))
+safeDestroy(replicatedStorage:FindFirstChild("RemoteEvent"))
+safeDestroy(replicatedStorage:FindFirstChild("GRAB"))
+safeDestroy(replicatedStorage:FindFirstChild("Ban"))
+safeDestroy(replicatedStorage:FindFirstChild("ModerationRemote"))
+safeDestroy(replicatedStorage:FindFirstChild("Function"))
+
+local eventsFolder = replicatedStorage:FindFirstChild("Events")
+if eventsFolder then
+    for _, event in ipairs({
+        "Ability",
+        "AdminGUI",
+        "AnimationSound",
+        "Ban",
+        "BusJumping",
+        "CannonListener",
+        "GliderUnequipped",
+        "HitMarker",
+        "HumanoidDied",
+        "Item",
+        "KickedBind",
+        "PlayAgainInit",
+        "PlayAgainReady",
+        "PlayAgainRemove",
+        "PlayAgainTP",
+        "ReturnHome",
+        "SetCameraSubject",
+        "Slap",
+        "VFX",
+        "Votekick",
+        "WS",
+        "WS2"
+    }) do
+        safeDestroy(eventsFolder:FindFirstChild(event))
+    end
+end
+
+local function destroyLocalScripts(character)
+    for _, script in ipairs({
+        "ItemClient",
+        "MainChar",
+        "WaterPhasingFix"
+    }) do
+        safeDestroy(character:FindFirstChild(script))
+    end
+end
+
+local function destroyPlayerScripts(playerScripts)
+    for _, scriptName in ipairs({
+        "e",
+        "VFXListener",
+        "SoundRegions",
+        "Main",
+        "HitMarker",
+        "HidePlayers",
+        "CatHandler",
+        "CannonListener",
+        "AnimationGPHandler"
+    }) do
+        safeDestroy(playerScripts:FindFirstChild(scriptName))
+    end
+
+    local clientFolder = playerScripts:FindFirstChild("Client")
+    if clientFolder then
+        safeDestroy(clientFolder:FindFirstChild("Main"))
+    end
+end
+
+if character then
+    destroyLocalScripts(character)
+end
+
+player.CharacterAdded:Connect(function(newCharacter)
+    destroyLocalScripts(newCharacter)
+end)
+
+local playerScripts = player:FindFirstChild("PlayerScripts")
+if playerScripts then
+    destroyPlayerScripts(playerScripts)
+end
+
+player.PlayerScripts.ChildAdded:Connect(function(child)
+    if child:IsA("Script") or child:IsA("LocalScript") then
+        destroyPlayerScripts(playerScripts)
+    end
+end)
+
+local backendLibCmdrBuiltInCommandsAdmin = replicatedStorage:FindFirstChild("BACKEND", true)
+if backendLibCmdrBuiltInCommandsAdmin then
+    local kick = backendLibCmdrBuiltInCommandsAdmin:FindFirstChild("kick", true)
+    local kickServer = backendLibCmdrBuiltInCommandsAdmin:FindFirstChild("kickServer", true)
+    
+    safeDestroy(kick)
+    safeDestroy(kickServer)
+end
