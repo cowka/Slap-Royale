@@ -29,7 +29,6 @@ if eventsFolder then
         "GliderUnequipped",
         "HitMarker",
         "HumanoidDied",
-        "Item",
         "KickedBind",
         "PlayAgainInit",
         "PlayAgainReady",
@@ -39,7 +38,6 @@ if eventsFolder then
         "SetCameraSubject",
         "Slap",
         "VFX",
-        "Votekick",
         "WS",
         "WS2"
     }) do
@@ -49,7 +47,6 @@ end
 
 local function destroyLocalScripts(character)
     for _, script in ipairs({
-        "ItemClient",
         "MainChar",
         "WaterPhasingFix"
     }) do
