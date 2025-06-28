@@ -109,7 +109,7 @@ end
 local SendNotification = function(Ti, Te)
     game:GetService("StarterGui"):SetCore('SendNotification', {Title = tostring(Ti), Text = tostring(Te)})
 end
-SendNotification("Bypassed 35/35 modules, functions, events etc. . .", "by cowka")
+SendNotification("Bypassed 31/35 modules, functions, events etc. . .", "by cowka")
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
